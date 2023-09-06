@@ -11,10 +11,6 @@ Thumbs.db
 # Ignorar archivos de configuración locales
 .env
 
-# Ignorar archivos generados por IDEs o editores de texto
-.idea/
-.vscode/
-
 # Ignorar archivos de compilación y dependencias específicas de proyectos
 /build/
 /dist/
