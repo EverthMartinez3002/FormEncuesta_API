@@ -1,13 +1,16 @@
 const express = require('express');
 const app = express();
-const port = 3000; // Elige un puerto para tu aplicación
+const port = 3000;
+var cookieParser = require('cookie-parser');
 
-// Define rutas y manejo de peticiones aquí
+const apiRouter = require("./routes/api/index.router");
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
 
-app.get('/', (req, res) => {
-    res.send('¡Hola, mundo!');
-  });
+app.use(express.json());
+app.use(cookieParser())
+app.use("/api", apiRouter);
+
+module.exports = app;
