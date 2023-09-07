@@ -1,4 +1,4 @@
-const { User } = require('../db/models/user.js'); // Asegúrate de que la ruta del modelo sea correcta
+const db = require('../db/models/index.js'); // Asegúrate de que la ruta del modelo sea correcta
 const userController = {};
 
 userController.register = async (req, res) => {
@@ -9,7 +9,7 @@ userController.register = async (req, res) => {
             return res.status(400).json({ message: 'Por favor, completa todos los campos.' });
         }
 
-        const newUser = await User.create({ username, password, email });
+        const newUser = await db.User.create({ username, password, email });
 
         return res.status(201).json({ message: 'Usuario registrado con éxito.', user: newUser });
 
