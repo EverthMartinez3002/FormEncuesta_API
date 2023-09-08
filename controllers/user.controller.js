@@ -11,7 +11,7 @@ userController.register = async (req, res) => {
 
         const newUser = await db.User.create({ username, password, email });
 
-        return res.status(201).json({ message: 'Usuario registrado con éxito.', user: newUser });
+        return res.status(201).json({ message: 'Usuario registrado con éxito.'});
 
     } catch (error) {
         console.error('Error al registrar el usuario:', error);

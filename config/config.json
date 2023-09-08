@@ -5,6 +5,8 @@
     "database": "encuestas",
     "port": "5433",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "migrationStorageTableName": "sequelize_meta",
+    "migrationPath": "../db/migrations"
   }
 }
