@@ -5,7 +5,6 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class Encuesta extends Model {
         static associate(models) {
-            // Asociación con Usuario
             Encuesta.belongsTo(models.User, {
                 foreignKey: 'usuarioId',
                 onDelete: 'CASCADE',

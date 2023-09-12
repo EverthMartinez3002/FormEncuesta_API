@@ -4,10 +4,13 @@ const secret = process.env.TOKEN_SECRET || 'SuperSecret';
 const tools = {};
 
 tools.createAccessToken = (user) => {
-    const expTime = process.env.TOKEN_EXP || '1d';
-    return jwt.sign({ user }, secret, { expiresIn: expTime });
-  };
-  
+  const expTime = process.env.TOKEN_EXP || '1d';
+  const { dataValues } = user;
+  delete dataValues.password;
+  delete dataValues.createdAt;
+  delete dataValues.updatedAt;
+  return jwt.sign({ user }, secret, { expiresIn: expTime });
+};
 
 tools.createRefreshToken = (_id) => {
   const expTime = process.env.TOKEN_EXP || '1d';
