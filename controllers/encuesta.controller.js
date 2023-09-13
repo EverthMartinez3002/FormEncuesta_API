@@ -4,13 +4,13 @@ const encuestraController = {};
 
 encuestraController.create = async (req, res) => {
     try {
-        const { reseña, propuesta, actividad, userId } = req.body;
+        const { reseña, propuesta, actividad, usuarioId } = req.body;
 
         const nuevaEncuesta = await db.Encuesta.create({
             reseña,
             propuesta,
             actividad,
-            userId,
+            usuarioId,
         });
 
         return res.status(201).json({ message: 'Encuesta creada con éxito', encuesta: nuevaEncuesta });

@@ -12,8 +12,13 @@ userController.register = async (req, res) => {
             return res.status(400).json({ message: 'Por favor, completa todos los campos.' });
         }
 
-        const saltRounds = 8;
+        const existingUser = await db.User.findOne({ where: { email } });
 
+        if (existingUser) {
+            return res.status(400).json({ message: 'El correo electrónico ya está en uso.' });
+        }
+
+        const saltRounds = 8;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const newUser = await db.User.create({ username, password: hashedPassword, email });
@@ -28,10 +33,10 @@ userController.register = async (req, res) => {
 
 userController.login = async (req, res) => {
     try {
-        const { identifier, password } = req.body;
+        const { email, password } = req.body;
 
         const user = await db.User.findOne({
-            $or: [{ email: identifier }, { username: identifier }],
+            where: { email: email },
         });
 
         if (!user) {
