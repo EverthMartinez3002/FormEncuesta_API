@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Encuesta', {
@@ -7,33 +9,33 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      reseña: {
-        type: Sequelize.TEXT
+      titulo: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
       },
-      propuesta: {
-        type: Sequelize.TEXT
+      descripcion: {
+        type: Sequelize.TEXT,
       },
-      actividad: {
-        type: Sequelize.TEXT
+      fecha_inicio: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      fecha_fin: {
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       usuarioId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
-          model: 'Users', 
-          key: 'id'
+          model: 'User',
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Encuesta');
   }

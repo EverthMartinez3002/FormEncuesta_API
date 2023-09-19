@@ -1,27 +1,32 @@
-'use strict';
-const bcrypt = require('bcrypt');
+// user.js
+const { Model, DataTypes } = require('sequelize');
 
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize) => {
   class User extends Model {
     static associate(models) {
-      // Asociación con Encuesta
       User.hasMany(models.Encuesta, {
         foreignKey: 'usuarioId',
       });
     }
   }
   User.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     username: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
+    Admin: { 
+      type: DataTypes.BOOLEAN,
+      defaultValue: false, 
+    },
   }, {
     sequelize,
     modelName: 'User',
+    tableName: 'User'
   });
 
   return User;
 };
-
