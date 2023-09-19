@@ -2,14 +2,17 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class User extends Model {
-    static associate(models) {
-      User.hasMany(models.Encuesta, {
-        foreignKey: 'usuarioId',
-      });
-    }
+class User extends Model {
+  static associate(models) {
+    // Definir la relación con Encuesta
+    User.hasMany(models.Encuesta, {
+      foreignKey: 'usuarioId',
+    });
   }
-  User.init({
+}
+
+User.init(
+  {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -18,15 +21,19 @@ module.exports = (sequelize) => {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    Admin: { 
+    Admin: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false, 
+      defaultValue: false,
+      allowNull: false,
     },
-  }, {
+  },
+  {
     sequelize,
     modelName: 'User',
-    tableName: 'User'
-  });
+    tableName: 'User',
+    timestamps: false,
+  }
+);
 
-  return User;
-};
+return User;
+}
