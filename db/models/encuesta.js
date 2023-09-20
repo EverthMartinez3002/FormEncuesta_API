@@ -8,6 +8,10 @@ module.exports = (sequelize) => {
         foreignKey: 'usuarioId',
         onDelete: 'CASCADE',
       });
+
+      Encuesta.hasMany(models.Pregunta, {
+        foreignKey: 'encuestaId',
+      });
     }
   }
 

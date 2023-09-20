@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const middlewares = require('../../middlewares/auth.middlewares')
 
 const encuestaController = require("../../controllers/encuesta.controller")
 
-router.post('/', encuestaController.create);
+router.get('/:userId', middlewares.authenticationSession, encuestaController.getAllByUserId);
+router.get('/respuestas/:encuestaId', middlewares.authenticationSession, encuestaController.isEncuestaContestada);
 
 module.exports = router;

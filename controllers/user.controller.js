@@ -6,7 +6,7 @@ const userController = {};
 
 userController.register = async (req, res) => {
     try {
-        const { username, password, email } = req.body;
+        const { username, password, email, Admin } = req.body;
 
         if (!username || !password || !email) {
             return res.status(400).json({ message: 'Por favor, completa todos los campos.' });
@@ -21,7 +21,7 @@ userController.register = async (req, res) => {
         const saltRounds = 8;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const newUser = await db.User.create({ username, password: hashedPassword, email });
+        const newUser = await db.User.create({ username, password: hashedPassword, email, Admin });
 
         return res.status(201).json({ message: 'Usuario registrado con éxito.' });
 
