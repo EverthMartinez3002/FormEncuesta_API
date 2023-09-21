@@ -58,4 +58,25 @@ userController.login = async (req, res) => {
     }
 };
 
+userController.GetAllNormalUsers = async (req, res) => {
+    try {
+        const users = await db.User.findAll({
+            where: { Admin: false },
+        });
+
+        if (!users || users.length === 0) {
+            return res.status(404).json({ error: "No hay usuarios" });
+        }
+
+        const Users = users.map((user) => {
+            const { password, email, Admin, ...sanitizedUser } = user.toJSON();
+            return sanitizedUser;
+        });
+
+        return res.status(200).json({ users: Users });
+    } catch (error) {
+        return res.status(500).json({ error: "Error interno del servidor" });
+    }
+};
+
 module.exports = userController;
