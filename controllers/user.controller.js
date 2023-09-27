@@ -79,4 +79,12 @@ userController.GetAllNormalUsers = async (req, res) => {
     }
 };
 
+userController.GetAllNormalUserByEncuesta = async (req, res) => {
+    try {
+
+    } catch (error) {
+
+    }
+}
+
 module.exports = userController;
