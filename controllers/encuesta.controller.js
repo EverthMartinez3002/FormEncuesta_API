@@ -58,7 +58,7 @@ encuestaController.isEncuestaContestada = async (req, res) => {
 
 encuestaController.create = async (req, res) => {
   try {
-    const { titulo, descripcion, usuarioId } = req.body
+    const { titulo, descripcion, usuarioId } = req.body;
 
     const nuevaEncuesta = await db.Encuesta.create({
       titulo,
@@ -73,6 +73,32 @@ encuestaController.create = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Error al crear la encuesta' });
+  }
+}
+
+encuestaController.AddUsers = async (req, res) => {
+  try {
+    const { titulo, descripcion, usuarios } = req.body;
+
+    if (!titulo || !descripcion || !usuarios || !usuarios.length) {
+      return res.status(400).json({ error: 'Los campos requeridos no están presentes o son inválidos.' });
+    }
+
+    const encuestasCreadas = await Promise.all(
+      usuarios.map(async (usuarioId) => {
+        const encuesta = await db.Encuesta.create({
+          titulo,
+          descripcion,
+          usuarioId,
+        });
+        return encuesta;
+      })
+    );
+
+    res.status(201).json({ encuestas: encuestasCreadas });
+  } catch (error) {
+    console.error('Error al crear encuestas:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
   }
 }
 

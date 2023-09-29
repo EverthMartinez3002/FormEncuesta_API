@@ -1,4 +1,5 @@
 const db = require('../db/models/index.js');
+const { Op, Sequelize, where } = require('sequelize');
 const bcrypt = require('bcrypt');
 const { createAccessToken } = require("../utils/jwt.tools.js");
 
@@ -81,9 +82,31 @@ userController.GetAllNormalUsers = async (req, res) => {
 
 userController.GetAllNormalUserByEncuesta = async (req, res) => {
     try {
+        const encuestaId = req.params.encuestaId;
 
+        const usuariosAgregados = await db.Encuesta.findAll({
+            where: {
+                usuarioId: {
+                    [Op.not]: null
+                },
+                id: encuestaId,
+            },
+            attributes: ['usuarioId',]
+        }).then((encuestas) => encuestas.map((encuestas) => encuestas.usuarioId));
+
+        const usuariosnoAgregados = await db.User.findAll({
+            where: {
+                id: {
+                    [Op.notIn]: usuariosAgregados
+                }
+            },
+            attributes: ['id', 'username']
+        })
+
+        res.status(200).json({ users: usuariosnoAgregados });
     } catch (error) {
-
+        console.error('Error al obtener usuarios no agregados a la encuesta:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 }
 
