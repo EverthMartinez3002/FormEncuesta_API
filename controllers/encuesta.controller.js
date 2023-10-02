@@ -80,7 +80,7 @@ encuestaController.AddUsers = async (req, res) => {
   try {
     const { titulo, descripcion, usuarios } = req.body;
 
-    if (!titulo || !descripcion || !usuarios || !usuarios.length) {
+    if (!titulo || !descripcion || !usuarios) {
       return res.status(400).json({ error: 'Los campos requeridos no están presentes o son inválidos.' });
     }
 
@@ -89,6 +89,8 @@ encuestaController.AddUsers = async (req, res) => {
         const encuesta = await db.Encuesta.create({
           titulo,
           descripcion,
+          fecha_inicio: new Date(),
+          fecha_fin: new Date(),
           usuarioId,
         });
         return encuesta;
