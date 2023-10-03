@@ -84,26 +84,25 @@ userController.GetAllNormalUserByEncuesta = async (req, res) => {
     try {
         const { usuarioIds } = req.body;
 
-        const usuariosAgregados = await db.Encuesta.findAll({
+        const usuariosnAgregados = await db.User.findAll({
             where: {
-                usuarioId: {
-                    [Op.in]: [usuarioIds],
-                },
+                id: {
+                    [Op.in]: usuarioIds
+                }
             },
-            attributes: ['usuarioId']
-        }).then((encuestas) => encuestas.map((encuestas) => encuestas.usuarioId));
+            attributes: ['id']
+        }).then((usuarios) => usuarios.map((usuarios) => usuarios.id));
 
-        // Encuentra los usuarios no agregados a la encuesta
         const usuariosnoAgregados = await db.User.findAll({
             where: {
                 id: {
-                    [Op.notIn]: usuariosAgregados
+                    [Op.notIn]: usuariosnAgregados
                 }
             },
             attributes: ['id', 'username']
         });
-
-        res.status(200).json({ users: usuariosnoAgregados });
+        
+        res.status(200).json({ users: usuariosnoAgregados});
     } catch (error) {
         console.error('Error al obtener usuarios no agregados a la encuesta:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
