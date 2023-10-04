@@ -5,11 +5,23 @@ const encuestaController = {};
 encuestaController.getAllByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
+    const { page = 1, pageSize = 9 } = req.query;
+
+    const offset = (page - 1) * pageSize;
+    const limit = parseInt(pageSize);
 
     const encuestas = await db.Encuesta.findAll({
       where: {
         usuarioId: userId,
       },
+      include: [
+        {
+          model: db.Pregunta, 
+          as: 'Pregunta', 
+        },
+      ],
+      offset,
+      limit
     });
 
     if (!encuestas || encuestas.length === 0) {

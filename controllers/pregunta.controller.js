@@ -42,4 +42,27 @@ preguntaController.create = async (req, res) => {
     }
 };
 
+preguntaController.createByEncuesta = async (req, res) => {
+    try {
+        const { preguntas, encuestasIds } = req.body;
+
+        const preguntasCreadas = [];
+
+        for (const encuestaId of encuestasIds) {
+            const preguntasDeEncuesta = preguntas.map(pregunta => ({
+                ...pregunta,
+                encuestaId: encuestaId
+            }));
+
+            const preguntasCreadasDeEncuesta = await db.Pregunta.bulkCreate(preguntasDeEncuesta);
+            preguntasCreadas.push(...preguntasCreadasDeEncuesta);
+        }
+
+        res.status(201).json({ preguntas: preguntasCreadas });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al crear las preguntas.' });
+    }
+};
+
 module.exports = preguntaController;
