@@ -10,6 +10,12 @@ encuestaController.getAllByUserId = async (req, res) => {
     const offset = (page - 1) * pageSize;
     const limit = parseInt(pageSize);
 
+     const count = await db.Encuesta.count({
+      where: {
+        usuarioId: userId,
+      },
+    });
+
     const encuestas = await db.Encuesta.findAll({
       where: {
         usuarioId: userId,
@@ -28,7 +34,7 @@ encuestaController.getAllByUserId = async (req, res) => {
       return res.status(404).json({ message: 'No se encontraron encuestas para este usuario' });
     }
 
-    return res.status(200).json({ encuestas });
+    return res.status(200).json({ encuestas, count });
   } catch (error) {
     console.error('Error al recuperar las encuestas:', error);
     return res.status(500).json({ error: 'Error interno del servidor' });
