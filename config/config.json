@@ -1,11 +1,17 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "root",
-    "database": "encuestas",
-    "port": "5433",
-    "host": "127.0.0.1",
+    "username": "doadmin",
+    "password": "AVNS_KMLVt6M54LboBq76Xwo",
+    "database": "defaultdb",
+    "host": "db-postgresql-nyc3-00829-do-user-14229353-0.b.db.ondigitalocean.com",
+    "port": 25060,
     "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    },
     "migrationStorageTableName": "sequelize_meta",
     "migrationPath": "../db"
   }
